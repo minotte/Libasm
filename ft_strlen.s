@@ -1,27 +1,21 @@
 bits 64
-
-;Macro
-STDOUT: equ 1
-STDIN:  equ 0
-%define SYS_WRITE
-
-section .data
-    message: db "Bonjour,  "
-    MESSAGE_LENGTH: equ $-message
-    ; USERNAME_MAX_LENGTH: equ 11
+global ft_strlen
 
 section .text
-    global _start
-    _start:
-        ;compteur 
-        mov rbx,    5
+    ft_strlen:
+        mov rcx, 0 
+        mov rbx, rdi
 
-        loop_message:
-            mov rax, SYS_WRITE
-            mov rdi,    FD
-
+    loop:
         
-        ; Quitte le programme
-        mov rax, 60
-        xor rdi, rdi
-        syscall
+        cmp byte [rbx], 0
+
+        jz  loop_end            ; end of the loop
+
+        inc rcx                 ; increment i
+        inc rbx                 ; increment *str
+        jmp loop                ; to loop
+    
+    loop_end:
+        mov rax, rcx            ; return rax
+        ret
